@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { UserData, userStore } from "../../stores/user-store";
 import { observer } from "mobx-react-lite";
 import { Button, Col, Row } from "antd";
@@ -7,7 +6,7 @@ import UserCard from "../../components/user-card/user-card";
 import UserModal from "../../components/user-modal/user-modal";
 import SearchFilter from "../search-filter/search-filter";
 import userService from "../../services/user-service";
-
+import { debounce } from "lodash";
 const HomePage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserData>();
@@ -35,21 +34,24 @@ const HomePage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (filterQuery) {
-      const filteredUsers = userStore.users.filter((user) => {
-        console.log(user.name.first.toLowerCase(), filterQuery.toLowerCase());
-        return (
-          user.name.first.toLowerCase() === filterQuery.toLowerCase() ||
-          user.name.last.toLowerCase() === filterQuery.toLowerCase() ||
-          user.email.toLowerCase() === filterQuery.toLowerCase() ||
-          user.location.city.toLowerCase() === filterQuery.toLowerCase() ||
-          user.location.country.toLowerCase() === filterQuery.toLowerCase()
-        );
-      });
-      setUsers(filteredUsers);
-    } else {
-      setUsers(userStore.users);
-    }
+    const search = debounce(() => {
+      if (filterQuery) {
+        const filteredUsers = userStore.users.filter((user) => {
+          return (
+            user.name.first.toLowerCase() === filterQuery.toLowerCase() ||
+            user.name.last.toLowerCase() === filterQuery.toLowerCase() ||
+            user.email.toLowerCase() === filterQuery.toLowerCase() ||
+            user.location.city.toLowerCase() === filterQuery.toLowerCase() ||
+            user.location.country.toLowerCase() === filterQuery.toLowerCase()
+          );
+        });
+        setUsers(filteredUsers);
+      } else {
+        setUsers(userStore.users);
+      }
+    }, 750);
+    search();
+
     // eslint-disable-next-line
   }, [filterQuery, userStore.users]);
 

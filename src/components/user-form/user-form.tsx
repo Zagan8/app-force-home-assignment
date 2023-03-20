@@ -4,7 +4,7 @@ import { UserData, userStore } from "../../stores/user-store";
 import { v4 as uuidv4 } from "uuid";
 
 interface Props {
-  user?: Partial<UserData>;
+  user?: UserData;
 
   toggleModal: () => void;
 }
@@ -28,7 +28,7 @@ const UserForm: React.FC<Props> = ({ user, toggleModal }) => {
       name: { first: values.firstName, last: values.lastName },
       email: values.email,
       picture: user
-        ? { medium: user.picture?.medium! }
+        ? { medium: user.picture.medium }
         : { medium: values.picture ? values.picture : "" },
       location: {
         country: values.country,
@@ -65,7 +65,7 @@ const UserForm: React.FC<Props> = ({ user, toggleModal }) => {
           { min: 3, message: "Name must be more then 3 letters" },
         ]}
       >
-        <Input />
+        <Input placeholder={"John"} />
       </Form.Item>
       <Form.Item
         label="Last Name"
@@ -76,7 +76,7 @@ const UserForm: React.FC<Props> = ({ user, toggleModal }) => {
           { min: 3, message: "Last name must be more then 3 letters" },
         ]}
       >
-        <Input />
+        <Input placeholder={"Snow"} />
       </Form.Item>
       <Form.Item
         label="Email"
@@ -96,15 +96,11 @@ const UserForm: React.FC<Props> = ({ user, toggleModal }) => {
           },
         ]}
       >
-        <Input />
+        <Input placeholder={"example@example.com"} />
       </Form.Item>
       {!user && (
-        <Form.Item
-          label="Picture"
-          name="picture"
-          rules={[{ required: true, message: "Please enter your picture url" }]}
-        >
-          <Input />
+        <Form.Item label="Picture Url" name="picture">
+          <Input placeholder={"https://example.example"} />
         </Form.Item>
       )}
       <Form.Item
@@ -113,7 +109,7 @@ const UserForm: React.FC<Props> = ({ user, toggleModal }) => {
         initialValue={user?.location?.country}
         rules={[{ required: true, message: "Please enter your country!" }]}
       >
-        <Input />
+        <Input placeholder={"Israel"} />
       </Form.Item>
       <Form.Item
         label="City"
@@ -121,7 +117,7 @@ const UserForm: React.FC<Props> = ({ user, toggleModal }) => {
         initialValue={user?.location?.city}
         rules={[{ required: true, message: "Please enter your city!" }]}
       >
-        <Input />
+        <Input placeholder={"Tel aviv"} />
       </Form.Item>
       <Form.Item
         label="Street"
@@ -131,7 +127,7 @@ const UserForm: React.FC<Props> = ({ user, toggleModal }) => {
           { required: true, message: "Please enter enter your street name!" },
         ]}
       >
-        <Input />
+        <Input placeholder={"Arlozorov"} />
       </Form.Item>
       <Form.Item
         label="Street Number"
@@ -141,7 +137,7 @@ const UserForm: React.FC<Props> = ({ user, toggleModal }) => {
           { required: true, message: "Please enter your street number!" },
         ]}
       >
-        <Input />
+        <Input placeholder={"1010101"} />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
         <Button type="primary" htmlType="submit">
