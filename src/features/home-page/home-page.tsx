@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { UserData, userStore } from "../../stores/user-store";
-import { v4 as uuidv4 } from "uuid";
 import { observer } from "mobx-react-lite";
 import { Button, Col, Row } from "antd";
 import UserCard from "../../components/user-card/user-card";
@@ -20,12 +19,15 @@ interface UsersDataResponse {
     street: { name: string; number: number };
   };
   picture: { medium: string };
+
+  login: { uuid: string };
 }
 
 const HomePage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserData>();
   const [filterQuery, setFilterQuery] = useState<string>();
+  const [users, setUsers] = useState<UserData[]>();
   const toggleModalAndSetUser = (user: UserData) => {
     setSelectedUser(user);
     setIsModalOpen(!isModalOpen);
@@ -42,10 +44,10 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     const init = async () => {
       const users = await axios.get("https://randomuser.me/api/?results=10.");
-      users.data.results.forEach((user: UserData) => {
+      users.data.results.forEach((user: UsersDataResponse) => {
         if (user) {
           userStore.setUser({
-            id: uuidv4(),
+            id: user.login.uuid,
             name: {
               first: user.name.first,
               last: user.name.last,
@@ -58,6 +60,7 @@ const HomePage: React.FC = () => {
             },
             picture: { medium: user.picture.medium },
           });
+          setUsers(userStore.users);
         }
       });
     };
@@ -67,6 +70,7 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     if (filterQuery) {
       const filteredUsers = userStore.users.filter((user) => {
+        console.log(user.name.first.toLowerCase(), filterQuery.toLowerCase());
         return (
           user.name.first.toLowerCase() === filterQuery.toLowerCase() ||
           user.name.last.toLowerCase() === filterQuery.toLowerCase() ||
@@ -75,12 +79,12 @@ const HomePage: React.FC = () => {
           user.location.country.toLowerCase() === filterQuery.toLowerCase()
         );
       });
-      userStore.clearUsers();
-      filteredUsers.forEach((user) => {
-        userStore.setUser(user);
-      });
+      setUsers(filteredUsers);
+    } else {
+      setUsers(userStore.users);
     }
-  }, [filterQuery]);
+    // eslint-disable-next-line
+  }, [filterQuery, userStore.users]);
 
   const handleFilter = (query: string) => {
     setFilterQuery(query);
@@ -104,7 +108,7 @@ const HomePage: React.FC = () => {
           toggleModal={toggleModal}
           user={selectedUser}
         />
-        {userStore.users?.map((user) => (
+        {users?.map((user) => (
           <Col
             key={user.id}
             style={{ justifyContent: "center", display: "flex" }}
