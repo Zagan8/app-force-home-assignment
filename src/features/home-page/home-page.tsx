@@ -6,22 +6,7 @@ import { Button, Col, Row } from "antd";
 import UserCard from "../../components/user-card/user-card";
 import UserModal from "../../components/user-modal/user-modal";
 import SearchFilter from "../search-filter/search-filter";
-
-interface UsersDataResponse {
-  name: {
-    first: string;
-    last: string;
-  };
-  email: string;
-  location: {
-    country: string;
-    city: string;
-    street: { name: string; number: number };
-  };
-  picture: { medium: string };
-
-  login: { uuid: string };
-}
+import userService from "../../services/user-service";
 
 const HomePage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,26 +28,8 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     const init = async () => {
-      const users = await axios.get("https://randomuser.me/api/?results=10.");
-      users.data.results.forEach((user: UsersDataResponse) => {
-        if (user) {
-          userStore.setUser({
-            id: user.login.uuid,
-            name: {
-              first: user.name.first,
-              last: user.name.last,
-            },
-            email: user.email,
-            location: {
-              country: user.location.country,
-              city: user.location.city,
-              street: user.location.street,
-            },
-            picture: { medium: user.picture.medium },
-          });
-          setUsers(userStore.users);
-        }
-      });
+      await userService.getUsers();
+      setUsers(userStore.users);
     };
     init();
   }, []);

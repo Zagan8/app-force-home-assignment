@@ -26,7 +26,7 @@ const UserCard: React.FC<Props> = ({
         onConfirm={() => deleteUserCard(user.id)}
         title={"Are you sure you want to delete this user?"}
       >
-        <DeleteOutlined key="delete" />
+        <DeleteOutlined style={{ color: "red" }} key="delete" />
       </Popconfirm>,
     ]}
   >
