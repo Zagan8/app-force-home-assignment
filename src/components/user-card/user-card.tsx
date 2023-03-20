@@ -19,14 +19,14 @@ const UserCard: React.FC<Props> = ({
   deleteUserCard,
 }) => (
   <Card
-    style={{ width: 300 }}
+    style={{ minWidth: "350px" }}
     actions={[
       <EditOutlined key="edit" onClick={() => toggleModalAndSetUser(user)} />,
       <Popconfirm
         onConfirm={() => deleteUserCard(user.id)}
         title={"Are you sure you want to delete this user?"}
       >
-        <DeleteOutlined key="delete" />,
+        <DeleteOutlined key="delete" />
       </Popconfirm>,
     ]}
   >

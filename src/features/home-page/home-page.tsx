@@ -110,6 +110,10 @@ const HomePage: React.FC = () => {
         />
         {users?.map((user) => (
           <Col
+            xs={24}
+            sm={12}
+            md={12}
+            lg={6}
             key={user.id}
             style={{ justifyContent: "center", display: "flex" }}
             span={6}
