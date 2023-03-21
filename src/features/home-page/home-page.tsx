@@ -28,6 +28,28 @@ const HomePage: React.FC = () => {
     setSelectedUser(undefined);
   };
 
+  const search = debounce(() => {
+    if (filterQuery) {
+      const filteredUsers = userStore.users.filter((user) => {
+        console.log(user.name.first.includes(filterQuery.toLowerCase()));
+        return (
+          user.name.first.toLowerCase().includes(filterQuery.toLowerCase()) ||
+          user.name.last.toLowerCase().includes(filterQuery.toLowerCase()) ||
+          user.email.toLowerCase().includes(filterQuery.toLowerCase()) ||
+          user.location.city
+            .toLowerCase()
+            .includes(filterQuery.toLowerCase()) ||
+          user.location.country
+            .toLowerCase()
+            .includes(filterQuery.toLowerCase())
+        );
+      });
+      setUsers(filteredUsers);
+    } else {
+      setUsers(userStore.users);
+    }
+  }, 750);
+
   useEffect(() => {
     const init = async () => {
       await userService.getUsers();
@@ -37,24 +59,7 @@ const HomePage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const search = debounce(() => {
-      if (filterQuery) {
-        const filteredUsers = userStore.users.filter((user) => {
-          return (
-            user.name.first.toLowerCase() === filterQuery.toLowerCase() ||
-            user.name.last.toLowerCase() === filterQuery.toLowerCase() ||
-            user.email.toLowerCase() === filterQuery.toLowerCase() ||
-            user.location.city.toLowerCase() === filterQuery.toLowerCase() ||
-            user.location.country.toLowerCase() === filterQuery.toLowerCase()
-          );
-        });
-        setUsers(filteredUsers);
-      } else {
-        setUsers(userStore.users);
-      }
-    }, 750);
     search();
-
     // eslint-disable-next-line
   }, [filterQuery, userStore.users]);
 

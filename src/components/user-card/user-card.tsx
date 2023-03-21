@@ -35,11 +35,11 @@ const UserCard: React.FC<Props> = ({
       title={user.name.first + " " + user.name.last}
       description={
         <div className="user-description">
-          <p>Email:{user.email}</p>
-          <p>Country:{user.location.country}</p>
-          <p>City:{user.location.city}</p>
+          <p>Email: {user.email}</p>
+          <p>Country: {user.location.country}</p>
+          <p>City: {user.location.city}</p>
           <p>
-            Street:
+            Street:{" "}
             {user.location.street.name + " " + user.location.street.number}
           </p>
         </div>
