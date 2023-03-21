@@ -1,0 +1,38 @@
+@font-face {
+  font-family: "Lobster", cursive;
+  src: url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+}
+
+.home-page {
+  position: relative;
+  .home-page-header-row {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    .home-page-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      width: 100%;
+
+      .home-page-title {
+        color: #ffff;
+        margin-top: 10px;
+        font-size: 28px;
+        white-space: nowrap;
+      }
+      .add-user-button {
+        svg {
+          margin-top: 18px;
+          height: 28px;
+          width: 28px;
+          color: #ffff;
+        }
+      }
+    }
+  }
+  .user-card-col {
+    justify-content: center;
+    display: flex;
+  }
+}

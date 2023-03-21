@@ -8,11 +8,11 @@ const SearchFilter: React.FC<Props> = ({ handleTyping }) => {
   return (
     <>
       <Input
+        className="search-filter"
         onChange={(e) => {
           handleTyping(e.target.value);
         }}
         placeholder={"Search for users"}
-        style={{ width: "300px" }}
       />
     </>
   );

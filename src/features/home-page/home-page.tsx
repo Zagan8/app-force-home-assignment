@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { UserData, userStore } from "../../stores/user-store";
 import { observer } from "mobx-react-lite";
-import { Button, Col, Row } from "antd";
+import { Button, Col, Row, Tooltip, Typography } from "antd";
 import UserCard from "../../components/user-card/user-card";
 import UserModal from "../../components/user-modal/user-modal";
-import SearchFilter from "../search-filter/search-filter";
+import SearchFilter from "../../components/search-filter/search-filter";
 import userService from "../../services/user-service";
 import { debounce } from "lodash";
+import "./home-page.scss";
+import { Header } from "antd/es/layout/layout";
+import { UserAddOutlined } from "@ant-design/icons";
 const HomePage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserData>();
@@ -59,19 +62,23 @@ const HomePage: React.FC = () => {
     setFilterQuery(query);
   };
   return (
-    <div style={{ padding: "0 20px" }}>
-      <Row justify={"center"}>
-        <h1>User Library</h1>
+    <div className="home-page">
+      <Row className="home-page-header-row">
+        <Header className="home-page-header">
+          <Typography.Text className="home-page-title">
+            Users Library
+          </Typography.Text>
+          <SearchFilter handleTyping={handleFilter} />
+          <Tooltip placement="bottom" title="Add user">
+            <UserAddOutlined
+              className="add-user-button"
+              onClick={toggleModal}
+              type={"primary"}
+            />
+          </Tooltip>
+        </Header>
       </Row>
-      <Row justify={"center"}>
-        <SearchFilter handleTyping={handleFilter} />
-      </Row>
-      <Row justify={"end"} style={{ margin: "20px 0" }}>
-        <Button onClick={toggleModal} type={"primary"}>
-          Add new user
-        </Button>
-      </Row>
-      <Row gutter={[10, 10]}>
+      <Row gutter={[15, 15]}>
         <UserModal
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}
@@ -84,8 +91,8 @@ const HomePage: React.FC = () => {
             md={12}
             lg={6}
             key={user.id}
-            style={{ justifyContent: "center", display: "flex" }}
             span={6}
+            className="user-card-col"
           >
             <UserCard
               toggleModalAndSetUser={toggleModalAndSetUser}

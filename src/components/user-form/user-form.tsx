@@ -52,7 +52,7 @@ const UserForm: React.FC<Props> = ({ user, toggleModal }) => {
       form={form}
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
-      style={{ maxWidth: 600 }}
+      className="user-form"
       onFinish={handleFormSubmit}
       autoComplete="off"
     >
@@ -140,10 +140,12 @@ const UserForm: React.FC<Props> = ({ user, toggleModal }) => {
         <Input placeholder={"1010101"} />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
+        <Button className="save-button" type="primary" htmlType="submit">
           Save
         </Button>
-        <Button onClick={toggleModal}>Cancel</Button>
+        <Button className="cancel-button" onClick={toggleModal}>
+          Cancel
+        </Button>
       </Form.Item>
     </Form>
   );

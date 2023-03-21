@@ -19,22 +19,22 @@ const UserCard: React.FC<Props> = ({
   deleteUserCard,
 }) => (
   <Card
-    style={{ minWidth: "350px" }}
+    className="user-card"
     actions={[
       <EditOutlined key="edit" onClick={() => toggleModalAndSetUser(user)} />,
       <Popconfirm
         onConfirm={() => deleteUserCard(user.id)}
         title={"Are you sure you want to delete this user?"}
       >
-        <DeleteOutlined style={{ color: "red" }} key="delete" />
+        <DeleteOutlined className="delete-icon" key="delete" />
       </Popconfirm>,
     ]}
   >
     <Meta
-      avatar={<Avatar src={user.picture.medium} />}
+      avatar={<Avatar className="user-avatar" src={user.picture.medium} />}
       title={user.name.first + " " + user.name.last}
       description={
-        <>
+        <div className="user-description">
           <p>Email:{user.email}</p>
           <p>Country:{user.location.country}</p>
           <p>City:{user.location.city}</p>
@@ -42,7 +42,7 @@ const UserCard: React.FC<Props> = ({
             Street:
             {user.location.street.name + " " + user.location.street.number}
           </p>
-        </>
+        </div>
       }
     />
   </Card>

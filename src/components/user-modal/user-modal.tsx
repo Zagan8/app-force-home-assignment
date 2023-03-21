@@ -14,7 +14,7 @@ const UserModal: React.FC<Props> = ({ isModalOpen, toggleModal, user }) => {
   return (
     <>
       <Modal
-        title="Basic Modal"
+        title={user ? "Edit user" : "Create user"}
         footer={false}
         open={isModalOpen}
         onCancel={toggleModal}
