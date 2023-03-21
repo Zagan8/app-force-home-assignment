@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
     } else {
       setUsers(userStore.users);
     }
-  }, 750);
+  }, 350);
 
   useEffect(() => {
     const init = async () => {
