@@ -83,7 +83,7 @@ const HomePage: React.FC = () => {
           </Tooltip>
         </Header>
       </Row>
-      <Row gutter={[15, 15]}>
+      <Row className="users-cards-container" gutter={[15, 15]}>
         <UserModal
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}

@@ -5,6 +5,13 @@
 
 .home-page {
   position: relative;
+  overflow: hidden;
+
+  .users-cards-container {
+    height: 90vh;
+    overflow: auto;
+  }
+
   .home-page-header-row {
     position: sticky;
     top: 0;
@@ -20,8 +27,10 @@
         margin-top: 10px;
         font-size: 28px;
         white-space: nowrap;
+        margin-right: 10px;
       }
       .add-user-button {
+        margin-left: 10px;
         svg {
           margin-top: 18px;
           height: 28px;
