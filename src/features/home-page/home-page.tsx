@@ -31,7 +31,6 @@ const HomePage: React.FC = () => {
   const search = debounce(() => {
     if (filterQuery) {
       const filteredUsers = userStore.users.filter((user) => {
-        console.log(user.name.first.includes(filterQuery.toLowerCase()));
         return (
           user.name.first.toLowerCase().includes(filterQuery.toLowerCase()) ||
           user.name.last.toLowerCase().includes(filterQuery.toLowerCase()) ||
@@ -61,7 +60,10 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     search();
     // eslint-disable-next-line
-  }, [filterQuery, userStore.users]);
+  }, [filterQuery]);
+  useEffect(() => {
+    setUsers(userStore.users);
+  }, [userStore.users]);
 
   const handleFilter = (query: string) => {
     setFilterQuery(query);
