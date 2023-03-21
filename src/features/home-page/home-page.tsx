@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { UserData, userStore } from "../../stores/user-store";
 import { observer } from "mobx-react-lite";
-import { Button, Col, Row, Tooltip, Typography } from "antd";
+import { Col, Row, Tooltip, Typography } from "antd";
 import UserCard from "../../components/user-card/user-card";
 import UserModal from "../../components/user-modal/user-modal";
 import SearchFilter from "../../components/search-filter/search-filter";
